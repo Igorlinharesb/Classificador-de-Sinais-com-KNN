@@ -25,4 +25,5 @@ Abaixo são mostrados os resultados para cada um dos algoritmos.
 Para o KNN foram experimentados diferentes valores de K e avaliado com cross-validation com 10 divisões e foi atingida precisão sempre acima dos 94%.
 
 ![Resultados NPC](https://github.com/Igorlinharesb/Classificador-de-Sinais-com-KNN/blob/master/images/results_npc.png)
+
 Para o NPC o foi avaliada a precisão em cada subdivisão do cross-validation e obterve precisão um pouco abaixo do KNN, com cerca de 86% de acertos nas previsões, também sendo um ótimo resultado.
