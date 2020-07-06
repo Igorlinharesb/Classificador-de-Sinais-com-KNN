@@ -80,18 +80,17 @@ results_knn = mean(results_knn);
 
 % Plotando acurácias do KNN para diferentes valores de k
 figure('Name', 'Resultados KNN');
-plot(results_knn, 'DisplayName', 'Atributos Normalizados')
+plot(results_knn)
 title('Taxa de acertos nas previsões com KNN')
 ylabel('Precisão')
 xlabel('Quantidade de vizinhos')
 
 % Plotando os resultados do NPC para cada 'fold'
 figure('Name', 'Resultados NPC');
-plot(results_npc, 'DisplayName', 'Atributos Normalizados')
+plot(results_npc)
 title('Taxa de acertos com NPC nas previsões em cada divisão')
 ylabel('Precisão')
 xlabel('Fold')
-legend()
 
 % Parando a verificação do tempo de execução
 toc;
