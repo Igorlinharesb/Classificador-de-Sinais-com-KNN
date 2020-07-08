@@ -17,9 +17,12 @@ close all;
 load('data/Classe1.mat');
 load('data/Classe2.mat');
 
+Classe1 = Classe1';
+Classe2 = Classe2';
+
 % Inicializando a matriz de características.
-features1 = zeros(length(Classe1), 6);
-features2 = ones(length(Classe2), 6);
+features1 = zeros(length(Classe1(:,1)), 6);
+features2 = ones(length(Classe2(:,1)), 6);
 
 % A última coluna representa a classe do sinal: 
 % 0 - Classe1  e 1 - Classe2
@@ -34,7 +37,7 @@ for i=1:4
 end
 
 % Extraindo atributos de cada amostra
-for i=1:length(Classe1)
+for i=1:length(Classe1(:,1))
     % Extraindo a média
     features1(i,1) = mean(Classe1(i,:));
     features2(i,1) = mean(Classe2(i,:));
@@ -71,7 +74,7 @@ figure('Name', 'Gráficos de Dispersão e Histogramas atributos normalizados');
 pairplot(normalized_features, feature_names)
 
 % Testando os classificadores com os dados normalizados
-[results_knn, results_npc] = cross_validation(normalized_features, 10, 50);
+[results_knn, results_npc] = cross_validation(normalized_features, 10, 80);
 
 % Results knn é uma matriz, onde as linhas são os resultados em cada 'fold'
 % e as colunas são os resultados para cada valor k, então utilizarei o
@@ -109,16 +112,22 @@ function pairplot(dataset, feature_names)
                 % Condicional que plota os  scatterplots dos atributos ixj
                 if i ~= j
                     subplot(m, m, m*(j-1)+i);
-                    plot(dataset(1:500, i), dataset(1:500, j), '.')
+                    final = length(dataset)/2;
+                    plot(dataset(1:final, i), dataset(1:final, j), '.')
                     hold on;
-                    plot(dataset(501:1000, i), dataset(501:1000, j), '.')
+                    begin = final+1;
+                    final = length(dataset);
+                    plot(dataset(begin:final, i), dataset(begin:final, j), '.')
                 else
                     % No caso de colunas com i igual à j, é plotado o
                     % histograma daquele atributo
                     subplot(m, m, m*(j-1)+i);
-                    histogram(dataset(1:500, i), 20);
+                    final = length(dataset)/2;
+                    histogram(dataset(1:final, i), 10);
                     hold on;
-                    histogram(dataset(501:1000, i), 20);
+                    begin = final+1;
+                    final = length(dataset);
+                    histogram(dataset(begin:final, i), 10);
                 end
                 % Adiciona a label no eixo vertical apenas na primeira
                 % coluna de gráficos
@@ -247,16 +256,16 @@ function [cv_scores_knn, cv_scores_npc] = cross_validation(dataset, kfolds, max_
     cv_scores_npc = zeros(kfolds, 1);
     
     % Tamanho de cada 'fold'
-    group_size = length(dataset)/kfolds;
+    fold_size = length(dataset)/kfolds;
     
     % O intuito de gerar os índices aleatórios por cada classe é manter as
     % classes balanceadas, de forma que em todas as divisões de treino e
     % teste sempre seja mantida a proporção 50-50 das classes.
-    indexes1 = randperm(500, 500);
-    indexes2 = randperm(500, 500)+500;
-    
+    middle = length(dataset)/2;
+    indexes1 = randperm(middle, middle);
+    indexes2 = randperm(middle, middle)+middle;  
     % class_size é a quantidade de amostras por classe em cada k
-    class_size = group_size/2;
+    class_size = fold_size/2;
     
     % Laço que faz a divisão dos sets de treino e teste, previsão com knn e
     % avaliação da acurácia
@@ -266,20 +275,21 @@ function [cv_scores_knn, cv_scores_npc] = cross_validation(dataset, kfolds, max_
         temp_indexes = [indexes1 indexes2];
         
         % Gera a lista de índices a serem utilizados para teste.
-        test_indexes = [temp_indexes(class_size*(fold-1) + 1:fold*class_size) temp_indexes(class_size*(fold-1) + 501:500+fold*class_size)];
-        
+        test_id1 = temp_indexes(class_size*(fold-1) + 1:fold*class_size); % índices da classe 1
+        test_id2 = temp_indexes(class_size*(fold-1) + middle+1:middle+fold*class_size); % índices da classe 2
+        test_indexes = [test_id1 test_id2];
         % Separa o dataset de teste
         test = dataset(test_indexes, :);
         
         % Remove os índices utilizados para o dataset de teste dos índices
         % temporários, restando apenas os índices que não foram utilizados
         % no teste
-        temp_indexes([temp_indexes(class_size*(fold-1) + 1:fold*class_size) temp_indexes(class_size*(fold-1) + 501:500+fold*class_size)]) = [];
+        temp_indexes([class_size*(fold-1) + 1:fold*class_size class_size*(fold-1) + middle+1:middle+fold*class_size]) = [];
         
         % Adiciona a parte do dataset não utilizado para teste em um
         % dataset de treino
         train = dataset(temp_indexes, :);
-        
+
         % Classifica o dataset de treino com o knn com os valores de k
         % variando entre 1 e k_max e retorna a acurácia para cada valor de
         % k
