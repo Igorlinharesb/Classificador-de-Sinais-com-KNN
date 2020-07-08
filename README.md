@@ -16,14 +16,14 @@ Para realizar a classificação foram extraídos 5 atributos das amostras: Médi
 
 ![Gráficos de Dispersão e Histogramas](https://github.com/Igorlinharesb/Classificador-de-Sinais-com-KNN/blob/master/images/paiplots.png)
 
+Observando o gráfico acima é possível inferir que as amostras possuem atributos são fácilmente separáveis com o KNN, principalmente se tratando da curtose e da assimetria. Isso devido ao fato das nuvens serem densas e distantes entre si, e desde que o valor de K seja menor que a quantidade de atributos de determinada classe, é possível conseguir 100% de precisão nas previsões.
+
 ### Resultados
 
 Abaixo são mostrados os resultados para cada um dos algoritmos.
 
 ![Resultados KNN](https://github.com/Igorlinharesb/Classificador-de-Sinais-com-KNN/blob/master/images/results_knn.png)
 
-Para o KNN foram experimentados diferentes valores de K e avaliado com cross-validation com 10 divisões e foi atingida precisão sempre acima dos 94%.
+Para o KNN foram experimentados valores de K entre 0 e 80 com cross validation com 10-folds. No gráfico acima é possível notar que o algoritmo não atinge precisão máxima apenas com um valor de k muito grande (a partir de 40). 
 
-![Resultados NPC](https://github.com/Igorlinharesb/Classificador-de-Sinais-com-KNN/blob/master/images/results_npc.png)
-
-Para o NPC o foi avaliada a precisão em cada subdivisão do cross-validation e obterve precisão um pouco abaixo do KNN, com cerca de 86% de acertos nas previsões, também sendo um ótimo resultado.
+O NPC também atingiu precisão máxima na classificação dos sinais, com a vantagem de ser menos custoso computacionalmente.
