@@ -6,7 +6,7 @@
 A implementação foi feita no software MATLAB e não foram utilizadas nenhuma das funções prontas para os classificadores, nem para o cross validation.
 
 ### Base de dados
-A base de dados foi fornecida pelo professor da disciplina, consiste em 2 arquivos .mat localizados no diretório data. Cada arquivo contém 500 amostras de cada sinal, em que no arquivo Classe1.mat contém 500 amostras de sinais ECG e em Classe2.mat contém 500 amostras de sinais de áudio. A imagem abaixo mostra a visualização de algumas dessas amostras, onde os sinais em azul são de ECG e os vermelhos são de áudios.
+A base de dados foi fornecida pelo professor da disciplina, consiste em 2 arquivos .mat localizados no diretório data. Cada arquivo contém 500 amostras de cada sinal, em que no arquivo Classe1.mat contém 50 amostras de sinais ECG e em Classe2.mat contém 50 amostras de sinais de áudio. A imagem abaixo mostra a visualização de algumas dessas amostras, onde os sinais em azul são de ECG e os vermelhos são de áudios.
 
 ![Exemplos de amostras](https://github.com/Igorlinharesb/Classificador-de-Sinais-com-KNN/blob/master/images/signals.png)
 
